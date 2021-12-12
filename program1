@@ -1,1 +1,39 @@
 Program to process the i/p data by using that data as an index into a jump table. Assume 4 input keys are allowed, corresponding to the number keys 1 through 4 on an ASCII keyboard If the value is within the range, the higher order ASCII bits are masked. The appropriate routine's address is extracted from the table and control is transferred to that address.
+address=TABLE+(dataX2)-2
+
+DPORT EQU 0D4H ; Data in port
+MSK EQU 07H; ASCII MASK
+TABLE SEGMENT
+  DW ROUTINE1
+  DW ROUTINE2
+  DW ROUTINE3
+  DW ROUTINE4
+TABLE ENDS
+
+
+CODE SEGMENT
+    ASSUME CS:CODE,DS:TABLE
+START: MOV AX,TABLE
+       MOV DS,AX
+NEWKEY: IN AL,DPORT
+        CMP AL,34H
+        JA NEWKEY
+        CMP AL,31H
+        JB NEWKEY
+ ; GOT A VALID NUMBER. NOW JUMP TABLE ADDRESS HAS TO BE FOUND
+        AND AL,MASK
+        MOV AH,O
+        MOV DI,AX
+        SHL DI,1
+        JMP [TABLE+DI-2]
+ROUTINE 1:;CODE FOR FIRST ROUTINE
+        JMP NEWKEY
+ROUTINE 2:;CODE FOR 2ND ROUTINE
+        JMP NEWKEY
+ROUTINE 3:;CODE FOR 3RD ROUTINE
+        JMP NEWKEY
+ ROUTINE 4:;CODE FOR 4TH ROUTINE
+        JMP NEWKEY
+  CODE ENDS
+    END START
+        
