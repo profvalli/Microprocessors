@@ -1,0 +1,1 @@
+Program to process the i/p data by using that data as an index into a jump table. Assume 4 input keys are allowed, corresponding to the number keys 1 through 4 on an ASCII keyboard If the value is within the range, the higher order ASCII bits are masked. The appropriate routine's address is extracted from the table and control is transferred to that address.
